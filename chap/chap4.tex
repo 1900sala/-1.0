@@ -1,13 +1,35 @@
-\chapter{总结与展望}
-\indent 本文提出了使用机器学习类算法来解决和优化地震紧急预警系统中预估震级部分的思路，设计了两种神经网络模型并成功实现了其中一种。已实现的以NN网络为基础的模型，与已有单台站震级预估算法相比有着更好的效果。通过较为简单的NN模型的实现展示出了此类算法在震级预估问题上的强大优势，同时也为深度学习类的模型探索出了今后研究方向。
-
-\indent 从预估表现来看，与传统的$\mathrm{p}_{\mathrm{d}}$和$\tau_{c}$方法相比，无论对于多事件整体，还是单一事件多台站联合预估NN模型的方差和误差都更小，这意味着预估效果得到提升。但根据单台站所得到的预估结果离散程度仍然很大，测试表明需要5个以上台站才能得到稳定的结果。
-
-\indent 因数据量不足的原因暂时还未实现的CNN模型，是以CNN卷积神经结构为基础深度学习模型。从已有研究结果和其思路来看，无论是使用高通巴特沃斯滤波器的$\mathrm{p}_{\mathrm{d}}$法、还是使用傅里叶变换的$\tau_{c}$法，本质都为对原始地震记录数据使用某种方式的滤波、变换后的某一特征。这对于深度学习CNN网络表达能力是完全能够达到的，并且对于有一定深度CNN网络可期待其得到其他的变换、滤波下的未知特征。将这些特征组合使用，可望得到更为优异的模型。
-
-\indent NN模型中没有使用位置信息，对于正在实现中的CNN模型，在其最后卷积层的输出后引入了台站和震源的经纬信息，这使其可能在区域内获得断层信息、地球介质信息的记录能力，而不是像$\mathrm{p}_{\mathrm{d}}$方法单纯使用震中距。这可能是解决单一台站预估结果离散过大的一种有效途径。
-
-\indent 本文采取了在训练集中对大震级事件过采样的方法，以处理类别不平衡问题。此后还可以继续尝试使用再缩放法结合过采样法，进一步处理和优化天然地震震级分布不均的问题。
-
-
-
+\chapter{机器学习方法预估震级效果评估与讨论 }
+\section{使用的震例和数据集的划分}
+\indent 利用前面所描述的方法，我们搭建并实现了$\tau_{c}$和机器学习模型进行效果检验。使用了日本KIK和KNET台站网从2015至2017年所记录到的903个地震事件(图4)，55426条台站记录作为全数据集。所有的地震都大于3级，并无经过其他任何事件挑选。为了保证算法的泛化能力的正确评估 (周志华, 2016)，我们随机将全数据集的60\%数据划分为训练集，10\%划分为交叉检验集，30\%划分为测试集。使用训练集和交叉检验集的数据反复进行模型参数训练，本文以下所有的方法效果评估均在未参与训练的测试集上展开。\\
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=0.8\linewidth]{img/basemap.jpg} 
+ \renewcommand{\figurename}{图} 
+\caption{全数据集地震事件} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{Full data set earthquake event} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+\indent 图5(a)显示了不同震级的地震数目分布。总体来看震级分布十分不均匀，小地震远多于大地震。但大地震破坏力大危害深重是我们在紧急预警系统中容错率低的部分，其在原始分布中、在训练集中出现频率低，不利于模型学习到关于如何预估大型地震震级的规则，给模型的训练带来较大的困扰。我们采取在训练集中对大地震数据过采样再加一定噪音的方法，以此处理数据分布不平衡问题。将原始的如图5(a)分布修正为图5(b)，一定程度上缓解该问题。\\
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=0.8\linewidth]{img/5event_distribution.eps} 
+ \renewcommand{\figurename}{图} 
+\caption{数据集中地震记录的震级分布。横轴为震级$\mathbf{M}_{\mathbf{w}}$，纵轴为该震级的台站记录数目。\\
+(a) 原始分布；(b) 调整后分布} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{Magnitude distribution of seismic records in data sets, The horizontal axis is the magnitude $\mathbf{M}_{\mathbf{w}}$, and the vertical axis is the number of stations recorded for this magnitude.\\
+(a) Original distribution; (b) Adjusted distribution
+} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}

@@ -2,8 +2,17 @@
 % Copyright (c) 2010-2011 Casper Ti. Vector
 % Public domain.
 
+
+
+\usepackage{bicaption} \captionsetup[figure][bi-first]{name=图}
+\captionsetup[figure][bi-second]{name=Figure} \captionsetup[table][bi-first]{name=表} \captionsetup[table][bi-second]{name=Table}
+
+
+
+
 \documentclass[UTF8]{pkuthss}
 % 使得打字机粗体可以被使用。
+\usepackage[justification=centering]{caption}
 \usepackage{lmodern}
 % 产生 originauth.tex 里的 \square。
 \usepackage{amssymb}
@@ -93,6 +102,8 @@
 	\include{chap/chap3}
 	\include{chap/chap4}
     \include{chap/chap5}
+    \include{chap/chap6}
+    
 	% 结论。
 	\include{chap/conclusion}
 
