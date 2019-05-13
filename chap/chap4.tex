@@ -1,6 +1,6 @@
 \chapter{机器学习方法预估震级效果评估与讨论 }
 \section{使用的震例和数据集的划分}
-\indent 利用前面所描述的方法，我们搭建并实现了$\tau_{c}$和机器学习模型进行效果检验。使用了日本KIK和KNET台站网从2015至2017年所记录到的903个地震事件(图4)，55426条台站记录作为全数据集。所有的地震都大于3级，并无经过其他任何事件挑选。为了保证算法的泛化能力的正确评估 (周志华, 2016)，我们随机将全数据集的60\%数据划分为训练集，10\%划分为交叉检验集，30\%划分为测试集。使用训练集和交叉检验集的数据反复进行模型参数训练，本文以下所有的方法效果评估均在未参与训练的测试集上展开。\\
+\indent 利用前面所描述的方法，我们搭建并实现了$\tau_{c}$和机器学习模型进行效果检验。使用了日本KIK和KNET台站网从2015至2017年所记录到的903个地震事件(图4)，55426条台站记录作为全数据集。所有的地震都大于3级，并无经过其他任何事件挑选。为了保证算法的泛化能力的正确评估 (周志华, 2016)。\\
 \begin{figure}[!h] 
 \centering 
  \includegraphics[width=0.8\linewidth]{img/basemap.jpg} 
@@ -18,7 +18,7 @@
 \indent 图5(a)显示了不同震级的地震数目分布。总体来看震级分布十分不均匀，小地震远多于大地震。但大地震破坏力大危害深重是我们在紧急预警系统中容错率低的部分，其在原始分布中、在训练集中出现频率低，不利于模型学习到关于如何预估大型地震震级的规则，给模型的训练带来较大的困扰。我们采取在训练集中对大地震数据过采样再加一定噪音的方法，以此处理数据分布不平衡问题。将原始的如图5(a)分布修正为图5(b)，一定程度上缓解该问题。\\
 \begin{figure}[!h] 
 \centering 
- \includegraphics[width=0.8\linewidth]{img/5event_distribution.eps} 
+ \includegraphics[width=0.95\linewidth]{img/event_dist.png} 
  \renewcommand{\figurename}{图} 
 \caption{数据集中地震记录的震级分布。横轴为震级$\mathbf{M}_{\mathbf{w}}$，纵轴为该震级的台站记录数目。\\
 (a) 原始分布；(b) 调整后分布} 
@@ -29,6 +29,86 @@
 \caption{Magnitude distribution of seismic records in data sets, The horizontal axis is the magnitude $\mathbf{M}_{\mathbf{w}}$, and the vertical axis is the number of stations recorded for this magnitude.\\
 (a) Original distribution; (b) Adjusted distribution
 } 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+
+
+\section{不同方法的评估比较}
+\indent 训练曲线如图6所示，两条图线分别为训练数据集(Train)和交叉数据集(CV)的均方根误差（RMSE）随着训练步数的变化。在经过NN模型经过大约150000步训练后，虽然训练数据集级上模型表现持续变好，但在交叉检验数据集上RMSE停止减小并开始增大，触发提前停止条件(Early Stopping)。故在此训练步数上停止训练，并存储此时的模型最佳权值。\\
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=0.8\linewidth]{img/6.eps} 
+ \renewcommand{\figurename}{图} 
+\caption{NN模型训练曲线。横轴为训练步数，纵轴为均方根误差(RMSE)。} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{NN Model training curve. The horizontal axis is the number of training steps and the vertical axis is the root mean square error (RMSE).} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+\indent 在图7和8中我们还原Kanamori (2008)的$\tau_{\mathrm{c}}$方法（以下简称为“K方法”），并使其与NN模型在同样的测试数据集上相比较。在图(7)中可发现如果和K方法一样，考察震级大于4级情况，NN模型和K方法的RMSE分别为0.29和0.59，NN模型具有优势。图7(a) K方法的结果中的实线为拟合$\tau_{\mathrm{c}}$和$\mathrm{M}_{\mathrm{w}}$的线性关系，实线上下两条虚线代表了一个平均标准差的范围。图中的小正方形为多台站联合预估震级的平均结果，而方框上下的延长线为该事件的一个标准差的置信区间。如果把最小震级的限制从4级扩展到更为广泛的3级，如图8所示，NN模型和K方法的RMSE分别为0.51和1.06。图9显示了对单一事件两种方法的预估方差情况。可以看出，不仅对于整体预估效果而言，NN模型预估方差小。并且从单一事件多台站的方差分布角度来看，NN模型的方差分布在两种最低截至震级模型下都更为左移，也表明模NN型的稳定性优于Kanamori(2008)的$\tau_{\mathrm{c}}$方法。
+
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=\linewidth]{img/9.eps} 
+ \renewcommand{\figurename}{图} 
+\caption{单一事件预估方差分布。横轴为方差大小，纵轴为该方差的密度。\\
+(a) 截至震级为4级K方法与NN模型方差分布;\\
+(b) 截至震级为3级K方法与NN模型方差分布} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{Single event estimation variance distribution. The horizontal axis is the variance and the vertical axis is the density of the variance.\\
+(a) The Kanamori method and the NN model variance distribution up to the
+magnitude 4; \\
+(b) The Kanamori method and the NN model variancedistribution up to the magnitude 3} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+
+
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=\linewidth]{img/8.eps} 
+ \renewcommand{\figurename}{图} 
+\caption{单一事件预估方差分布。横轴为方差大小，纵轴为该方差的密度。\\
+(a) 截至震级为4级K方法与NN模型方差分布;\\
+(b) 截至震级为3级K方法与NN模型方差分布} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{Single event estimation variance distribution. The horizontal axis is the variance and the vertical axis is the density of the variance.\\
+(a) The Kanamori method and the NN model variance distribution up to the
+magnitude 4; \\
+(b) The Kanamori method and the NN model variancedistribution up to the magnitude 3} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=\linewidth]{img/7.eps} 
+ \renewcommand{\figurename}{图} 
+\caption{单一事件预估方差分布。横轴为方差大小，纵轴为该方差的密度。\\
+(a) 截至震级为4级K方法与NN模型方差分布;\\
+(b) 截至震级为3级K方法与NN模型方差分布} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{Single event estimation variance distribution. The horizontal axis is the variance and the vertical axis is the density of the variance.\\
+(a) The Kanamori method and the NN model variance distribution up to the
+magnitude 4; \\
+(b) The Kanamori method and the NN model variancedistribution up to the magnitude 3} 
 \renewcommand{\figurename}{图} 
 %英文标题end 
 \label{fig:network-device-influence.png} 

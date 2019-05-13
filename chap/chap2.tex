@@ -3,158 +3,18 @@
 
 \section{预估震级的可能性}
 
-    \indent 能够由初始破裂信息估计出整个地震的规模是预估震级可行的基本前提。目前学术界对于这个问题仍没有一致性的认识。持否定态度的学者认为破裂过程在时序上是不可预测，即使用已得到的地震台信息只能评估目前的地震释放的能量但不能预估整个断层破裂结束所释放的能量大小(Mori, 1996; Kilb et al, 1999)，。但仍有已有多种观点支持根据少量初始信息进行地震震级预估是可行的。首先，在断层初始破裂过程中存在成核震相，而它直接决定了最终破裂的形态 (Ellsworth and Beroza, 1995; 马胜利等, 2002; Dodge et al, 1996)；其次，地震产生的P波和S波分别携带不同信息，前者携带着反映断层如何滑动的信息，而后者则携带着地震能量的信息，因此可以分别加以利用，在破坏性较强的S波到来之前，通过P波的特征估计出断层破裂信息 (Beroza et al, 1995)。
-在这此问题的不断争论中，已有许多研究成果表明在一定的精度要求下是可以做到使用初始破裂信息估计整个地震的规模的 (Allen et al., 2003, 2007; Kanamori et al., 1997, 2005, 2008）。根据不同算法的出发点，大致可以划分为两类，分别是特征频率类方法和特征振幅类方法。
-
-% 	\section{计算的基本公式与符号说明}
-%   \indent 积分核的计算公式基于~Tada and Madariaga(2001)~的结果， $\Delta t$~时间内单元滑动速率的积分核由(\ref{con:tandm})式给出，
-%         \begin{align} \label{con:tandm}
-%               K_{ij/k}(\textbf{z},t)=L_{ij/k}(\textbf{z},t+\Delta t)-L_{ij/k}(\textbf{z},t)
-%          \end{align}
-%     其中$L$表示单元滑动速率在~0~到无穷的积分，$K$为$\Delta t$时间内单元滑动速率的积分，$\textbf{z}$为空间上的坐标。这里我们采用~Feng and Zhang(2017)~的采用三角形离散化方案得到的计算结果。我们想要计算通过坐标变换后，三点坐标分别为$A(a_{1},a_{2},0)$，$B(b_{1},b_{2},0)$，$C(c_{1},c_{2},0)$的三角形在接收点$R(x_{1},x_{2},x_{3})$处的应力响应。得到的结果中~$L_{31/1}$~ 的表达式为公式~(\ref{con:L311})~所示
-%         \begin{align} \notag
-%           2\pi L_{31/1} &= \sum^{abc}([-2p^{3}c_{L}tf_{1}(b_{1}-a_{1},x_{1}-b_{1},y_{1},y_{2}) + 2c_{T}^{3}t^{3}f_{2}(b_{1} - a_{1},x_{1}-b_{1},y_{1},y_{2})\\
-%          & \notag +  6p^{3}c_{L}tx_{3}^{2}f_{2}(b_{1} - a_{1},x_{1} - b_{1},y_{1},y_{2})- 10c_{T}^{3}t^{3}x_{3}^{2}f_{3}(b_{1}-a_{1},x_{1}-b_{1},y_{1},y_{2})\\
-%          &\notag + 2c_{T}tf_{1}(b_{1}-a_{1},x_{1}-b_{1},z_{1},z_{2}) - 2c_{T}^{3}t^{3}f_{2}(b_{1}-a_{1},x_{1}-b_{1},z_{1},z_{2})\\
-%          &\notag - 6c_{T}tx_{3}^{2}f_{2}(b_{1}-a_{1},x_{1}-b_{1},z_{1},z_{2})+ 10c_{T}^{3}t^{3}x_{3}^{2}f_{3}(b_{1}-a_{1},x_{1}-b_{1},z_{1},z_{2})](a_{2}-b_{2}) \\
-%          & + c_{T}t(b_{1}-a_{1})f_{1}(b_{2}-a_{2},x_{2}-b_{2},z_{1},z_{2})  ) + E(c_{L})\label{con:L311}
-%          \end{align}
-         
-%         \noindent $c_{L}$~表示~P~波波速，$c_{T}$~表示~S~波波速，$\sum^{abc}$表示对~$a_{1}$，$a_{2}$，$b_{1}$，$b_{2}$，$c_{1}$，$c_{2}$~的循环求和，$f_{i}$~的详细表达式以及相关不定积分如何取值的讨论见附录B所示。
-
-
-
-%     \section{积分核加速计算}
-
-%     \indent 由附录B对于定积分上下限的讨论可知，定积分的上下限取值存在不同的情况。由于定积分的取值不同，得到的积分核形式也不同。当定积分上下限的取值是确定的，对应积分核的形式应当也是固定的。同时，我们作出积分核的值随时间的变化图（如图~\ref{fig:yinglichuanbotuxiang}~所示），可知在$t_f$时刻之前，三角形单元对接收点的影响为~0，在~$t_{c}$~时刻之后积分核值为一稳定值。初始区和稳定区的积分核的值为固定的，然而这个部分的计算却占据了计算成本的大部分，因此简化这两个区域的计算就显得很重要。我们可以通过计算到时来判断应力影响到达的位置，通过各个区域的临界到时对积分核的计算进行分区，然后在不同区域中采取不同的优化策略以达到提高计算效率的目的。
-  
-
-% \begin{figure}[ht]
-%   \centering
-%   \begin{subfigure}[b]{0.45\linewidth}
-%     \includegraphics[width=\linewidth]{img/model_1.eps}
-%     \caption{应力传模型}\label{fig:yinglimoxin}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.45\linewidth}
-%     \includegraphics[width=\linewidth]{img/model_2.eps}
-%     \caption{应力影响传播图像}\label{fig:yinglichuanbotuxiang}
-%   \end{subfigure}
-%   \caption{应力传播分区图}
-% \end{figure}
-
-%  \subsection{对初始区积分核计算的简化}
-%         如图~2.1(a)~所示，当应力的传播未到达影响接收区，此时对应初始区的情况，即此时~P~波和~S~波波前，并未达到其影响的单元。可以得到，对于~P~波的情况，$y_1=0$，$y_2=0$。 对于~S~ 波的情况，$z_1=0$，$z_2=0$。这里，$y_1$，$y_2$，$z_1$，$z_2$的含义见公式~(\ref{con:def-sxxian1})， (\ref{con:def-sxxian2})~中的积分上下限。因此代入计算公式可得
-% 		\begin{equation}
-% 			    	L_{311} = 0 
-% 	     \end{equation}
-%  \noindent 代入公式~(\ref{con:tandm})，可以求得对应的的积分核为
-% \begin{equation}
-%     K_{311} =0 
-% \end{equation}
-% 为判断地震波是否到达初始区，我们需要求出最小到时$T_{\min}$，我们便可以认为在最小到时之前积分核都为~0。由于~P~波波速大于~S~波，因此我们只需要求出~P~波的最小到时即可。问题转化为如何求点到三角形区域的最短距离。进步一问题转化为点到三角形三边，也就是到求点到三条线段的最小距离。对于点到线段的距离，可以利用投影法进行求解。如图所示，点~P~与线段~AB~的位置关系一共存在三种情况：\\
-% 1.	点~P~在线段~AB~的延长线。此时满足$|PA| = |AB|+|PB|$ (或者 $|PB| = |AB|+|PA|$) 。 此时点到线段的最短距离为$|PB|$（或者$|PA|$）。\\
-% 2.	点~P~的投影在线段~AB~的延长线上，此时满足 $|PA|^2 > | AB |^2 +|PB|^2$( 或者$|PA|^2 > | AB |^2 +|PB|^2$) 。此时点到线段的最短距离为$|PB|$(或者$|PA|$)。\\
-% 3.	点~P~的投影在线段~AB~上。此时需要利用公式~(\ref{con:hl})~计算三角形面积
-% \begin{equation}
-%     S = \sqrt{p(p-a)(p-b)(p-c)}  \label{con:hl}
-% \end{equation} 其中~$p$~为三角形周长的一半，$a$，$b$，$c$~为三角形三边的长度。则点到线段的最短距离为以~AB~ 边为底的高$S/|AB|$。对三角形区域，求出接收点到其的最短距离后，可以求得最小到时$T_{\min} = r/c_{L}$。而对于$t<T_{\min}$ 的情况，积分核$L_{311}$的值为~0。因此对于时间小于最小到时的情况，这部分积分核的值，我们可以不予计算。
-% \subsection{对稳定区积分核计算的简化}
-%         \indent 如图~\ref{fig:yinglichuanbotuxiang}~中稳定区所示,
-% 此时对图~\ref{fig:yinglimoxin}~蓝色区域的情况，即此时~P~波和~S~波波前都已经传过影响单元。对于这种情况，对于P波的情况~$y_1=0$，$ y_2 = 1$，对于~S~ 波的情况~$z_1 =0$，$z_2 =1$。代入积分核的计算公式可得
-% 	\begin{equation}
-%      L_{311} =L_{t}t + E(c_T)
-% 	\end{equation}
-% \begin{align}\notag
-% L_{t} &=\sum^{abc}( [-2 p ^3c_{L}tf_1(b_{1}-a_{1},x_{1}-b_{1},0,1) + 6p^3c_{L}tx^{2}_{3}f_{2}(b_{1}-a_{1},x_{1}-b_{1},0,1) \\
-% \notag
-% &+ 2c_{T}tf_{1}(b_{1}-a_{1},x_{1}-b_{1},0,1) -6c_{T}tx^{2}_{3}f_{2}(b_{1}-a_{1},x_{1}-b_{1},0,1)](a_{2}- b_{2})\\
-% &+ c_{T}t(b_{1}-a_{1})f_{1}(b_{2}-a_{2},x_{2}-b_{2},0,1))\notag \label{con:Lt}
-% \end{align}
-
-% \noindent 其中，$L_{t}$的表达式如公式~(\ref{con:Lt})~所示。在到达稳定区后，$L_{311}$~所有的时间的高阶项全部都消去了，只剩下时间的一次项和与时间无关的项。代入到积分核计算公式，可以得到
-% \begin{equation}
-%     K_{311} = L_{t} \rm{d}t
-% \end{equation} 
-% 其中~$K_{311}$~为一个与时间无关的常量。因此只要找到了地震波达到稳定区的到时，那么在稳定区中,我们都可以只计算并储存刚好到达稳定区时的积分核值，而对于其后的积分核都不予计算。由于~S~波波速小于~P~波波速，只用考虑~S~波到达稳定区的临界到时即可。问题转化为，求初始破裂单元到其影响单元的最大距离。而该问题又可以转化为，求解影响单元到初始破裂的三角形单元的三个顶点的最大距离。求出最大距离~$R_{\max}$~后，稳定区临界到时~$t_c = R_{\max} / c_T$。在稳定区临界到时之后，积分核不会变化，我们不用对该时刻之后的积分核进行计算，从而达到加速的目的。
-%     \section{加速计算效率与正确性检验}
-% \indent 在前面的内容中，我们通过波的到时对积分核的计算进行了分区，并在初始区和稳定区对积分核的计算进行了简化以达到加速计算的目的。为确定我们加速计算方案的效率并验证该方案的正确性，我们需要与~Feng and Zhang(2017)~的结果进行数值验证。我们选取四个三角形单元，其三点的坐标分别为如图~\ref{fig:model-4}~所示。
-% \begin{figure}[H]
-%     \centerin
-%   \includegraphics[trim = 0mm 0mm 10mm 0mm, clip=true,width=0.98\linewidth]{img/model.eps}
-%     \caption{正确性检验模型图} \label{fig:model-4}
-%   \end{figure}
-% 其中三角形~1~为初始破裂单元，我们计算其对自身以及对其他三个单元的积分核值。P~波波速为~$c_{L} = 5.6~{\rm{km/s}}$，S波波速为~$c_{T} = 3.23~{\rm{km/s}}$。一共计算~50~个时间步。我们采用~Matlab~编程,将两种方法计算得到的积分核值进行比较，结果如图\ref{fig:demenstrate}所示。
-% %\begin{figure}[htb]  
-%  % \centering
-%   %\subfigure[]{
-%   %\label{fig.1}
-%   % \includegraphics[width=0.5\linewidth]{L311_1_1.eps}}
-%   % \subfigure[]{
-%   % \includegraphics[width=0.5\linewidth]{L311_1_6.png}}
-%   % \subfigure[]{
-%   % \includegraphics[width=0.5\linewidth]{L311_1_150.png}}
-%   %\subfigure[]{
-%   %\includegraphics[width=0.5\linewidth]{L311_1_200.png}}
-%   % \caption{\scriptsize good job}
-%   %\label{2}
-%  %\end{figure}
-
-%  \begin{figure}[htb]
-%   \centering
-%   \begin{subfigure}[b]{0.45\linewidth}
-%     \includegraphics[width=\linewidth]{L311_1_1.eps}
-%     %\label{a}
-%     \caption{单元1对单元1的影响}\label{fig:danyuan1}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.45\linewidth}
-%     \includegraphics[width=\linewidth]{L311_1_6.eps}
-%     \caption{单元1对单元2的影响}\label{fig:danyuan2}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.45\linewidth}
-%     \includegraphics[width=\linewidth]{L311_1_150.eps}
-%     \caption{单元1对单元3的影响}\label{fig:danyuan3}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.45\linewidth}
-%     \includegraphics[width=\linewidth]{L311_1_200.eps}
-%     \caption{单元1对单元4的影响}\label{fig:danyuan4}
-%   \end{subfigure}
-%   \caption{积分核随时间变化图}\label{fig:demenstrate}
-% \end{figure}
-% \\
-
-% \begin{comment}
-%  \begin{table}
-% \centering  
-% \caption{模型坐标} \label{zuobiao} 
-% \begin{tabular}{|c|c|c|c|}
-%  \hline
-% 顶点A&顶点B& 顶点C& 三角形\\
-%  \hline
-% (1.9194,0.5440) & (2.0000,0.4526) & (2.0000,0.5440)& 三角形1 \\
-%  \hline
-% (2.0000,0.4526) & (1.9194,0.5440) & (1.8890, 0.4525)& 三角形2\\
-%  \hline
-% (1.8888, 0.2703) & (1.8243, 0.3614) & (1.7805, 0.2709)& 三角形3\\
-%  \hline
-% ( 1.0506,1.0000) & ( 1.1018,0.9079) & ( 1.0506,1.0000)& 三角形4\\
-%  \hline
-% \end{tabular}\\
-% \end{table}
-% \end{comment}
-% \indent 我们可以发现，加速计算后的结果和~Feng and Zhang(2017)~原有的公式计算的结果是一样的。同时，可以看出，利用分区的处理办法，能极大的提高计算的效率。如图~\ref{fig:danyuan1}~所示，该情况为三角形1对自身应力影响的积分核（也称该单元为共位单元）。对于~$t_c$~之后的积分核，采用分区处理的办法是不用计算这个部分的，可以得到计算效率提高 91\%。如图~\ref{fig:danyuan2}~所示此积分核值为0。 若采用原有方法，需要计算整个过程。而采用分区处理的办法，判断地震波传播仍处于初始区中，则可以直接得到该部分的所有积分核值都为0.计算的效率提高约为百分之百。对于，图~\ref{fig:danyuan3}，图~\ref{fig:danyuan4}~仍然能得到利用分区法能够加速计算积分核的结论。因此，我们可以认为，在保证正确率的同时，分区处理积分核方法能极大的提高计算效率。\\
-%     \indent 至此本章通过数值推导与分析，得到了分区域计算积分核的办法，实现了计算效率的提高，并且通过~Matlab~编程对加速后的方法进行正确性检验。下一章中将用~Matlab~编程实现该方法，并对具体算例进行研究。
-
-
+\indent 能够由初始破裂信息估计出整个地震的规模是预估震级可行的基本前提。目前学术界对于这个问题仍没有一致性的认识。持否定态度的学者认为破裂过程在时序上是不可预测，即使用已得到的地震台信息只能评估目前的地震释放的能量但不能预估整个断层破裂结束所释放的能量大小(Mori, 1996; Kilb et al, 1999)，。但仍有已有多种观点支持根据少量初始信息进行地震震级预估是可行的。首先，在断层初始破裂过程中存在成核震相，而它直接决定了最终破裂的形态 (Ellsworth and Beroza, 1995; 马胜利等, 2002; Dodge et al, 1996)；其次，地震产生的P波和S波分别携带不同信息，前者携带着反映断层如何滑动的信息，而后者则携带着地震能量的信息，因此可以分别加以利用，在破坏性较强的S波到来之前，通过P波的特征估计出断层破裂信息 (Beroza et al, 1995)。
+在这此问题的不断争论中，已有许多研究成果表明在一定的精度要求下是可以做到使用初始破裂信息估计整个地震的规模的 (Allen et al., 2003, 2007; Kanamori et al., 1997, 2005, 2008）。根据不同算法的出发点，大致可以划分为两类，分别是特征频率类方法和特征振幅类方法。\\
 
 \section{特征频率类方法}
-\indent 对于估计地震规模的问题，最重要的是确定地震的破裂是否已经停止，或者是仍持续扩展，特征频率类方法就是通过最初的地表震动周期长短来判定地震破裂的持续情况 (Kanamori, 2005; Allen, 2005）。尽管事实上地震破裂的过程往往很复杂，甚至一个大规模地震初始是由一个短周期的初动持续作用引起的，但这并不影响我们从平均意义上研究地震的特征周期（或特征频率）与最终地震规模的关系。
+\indent 对于估计地震规模的问题，最重要的是确定地震的破裂是否已经停止，或者是仍持续扩展，特征频率类方法就是通过最初的地表震动周期长短来判定地震破裂的持续情况 (Kanamori, 2005; Allen, 2005）。尽管事实上地震破裂的过程往往很复杂，甚至一个大规模地震初始是由一个短周期的初动持续作用引起的，但这并不影响我们从平均意义上研究地震的特征周期（或特征频率）与最终地震规模的关系。\\
 
-\indent Nakamura (1988) 首先提出了利用实时速度记录计算地震动卓越周期的算法，随后经一些研究者拓展形成了对P波拐角频率的特征进行估计的$\tau_{p}^{\max }$方法 (Allen et al, 2003; Olson et al., 2005; Kanamori et al., 1995, 2005)。根据这种方法，
+\indent Nakamura (1988) 首先提出了利用实时速度记录计算地震动卓越周期的算法，随后经一些研究者拓展形成了对P波拐角频率的特征进行估计的$\tau_{p}^{\max }$方法 (Allen et al, 2003; Olson et al., 2005; Kanamori et al., 1995, 2005)。根据这种方法，\\
 \begin{equation}
 \tau_{\mathrm{i}}^{\mathrm{p}}=2 \pi \sqrt{\frac{\mathrm{X}_{\mathrm{i}}}{\mathrm{D}_{\mathrm{i}}}}
 \end{equation}
-式中，$\mathrm{X}_{\mathrm{i}}=\alpha \mathrm{X}_{\mathrm{i}-1}+\mathrm{x}_{\mathrm{i}}^{2}, \mathrm{D}_{\mathrm{i}}=\alpha \mathrm{D}_{\mathrm{i}-1}+\left(\frac{\mathrm{dx}}{\mathrm{dt}}\right)_{\mathrm{i}}^{2}, \tau_{i}^{p}$是i秒时测定的特征周期，$\mathrm{X}_{\mathrm{i}}$是记录的地面运动速度值，$\mathrm{X}_{\mathrm{i}}$是平滑后地面运动速度的平方值，α为接近的1的平滑系数 (取值多为0.999)。$\tau_{p}^{\max}$台站P波触发后的若干秒后，该迭代序列中的最大值。美国著名的ElamrS系统就采取$\tau_{p}^{\max }$法进行的震级预估 (Allen et al, 1996)。ElamrS系统实践表明，$\tau_{p}^{\max}$台站数量要求较高，多台站联合预估结果的误差在台站数量较少的情况下与其数量近似呈现线性关系，5个台站平均误差约为±0.70，10个台站误差下降至±0.35 (Kanamori et al., 2005）。$\tau_{p}^{\max}$法的准确和稳定性同时还受台站记录的采样率影响，与数据预处理方式密切相关，选用不同滤波器或滤波时窗都会对特征周期的计算结果产生较大影响。例如当选用较大的高频截止频率对记录低通滤波处理后，特征周期计算结果会明显偏小。Allen (2003, 2007)在后续的一系列的工作中对$\tau_{p}^{\max}$法进行可改进，在预估震级前给出预分类假设。在不同的预分类情况下使用不同的滤波方式，以得到该情形相应的震级并基于多种情景假设共同预估出震级。
-\indent Kanamori(2005)随后提出了一种对$\tau_{p}^{\max}$改进的捕捉特征周期计算方法，称为$\tau_{\mathrm{c}}$方法，计算方法如下：
+式中，$\mathrm{X}_{\mathrm{i}}=\alpha \mathrm{X}_{\mathrm{i}-1}+\mathrm{x}_{\mathrm{i}}^{2}, \mathrm{D}_{\mathrm{i}}=\alpha \mathrm{D}_{\mathrm{i}-1}+\left(\frac{\mathrm{dx}}{\mathrm{dt}}\right)_{\mathrm{i}}^{2}, \tau_{i}^{p}$是i秒时测定的特征周期，$\mathrm{X}_{\mathrm{i}}$是记录的地面运动速度值，$\mathrm{X}_{\mathrm{i}}$是平滑后地面运动速度的平方值，α为接近的1的平滑系数 (取值多为0.999)。$\tau_{p}^{\max}$台站P波触发后的若干秒后，该迭代序列中的最大值。美国著名的ElamrS系统就采取$\tau_{p}^{\max }$法进行的震级预估 (Allen et al, 1996)。ElamrS系统实践表明，$\tau_{p}^{\max}$台站数量要求较高，多台站联合预估结果的误差在台站数量较少的情况下与其数量近似呈现线性关系，5个台站平均误差约为±0.70，10个台站误差下降至±0.35 (Kanamori et al., 2005）。$\tau_{p}^{\max}$法的准确和稳定性同时还受台站记录的采样率影响，与数据预处理方式密切相关，选用不同滤波器或滤波时窗都会对特征周期的计算结果产生较大影响。例如当选用较大的高频截止频率对记录低通滤波处理后，特征周期计算结果会明显偏小。Allen (2003, 2007)在后续的一系列的工作中对$\tau_{p}^{\max}$法进行可改进，在预估震级前给出预分类假设。在不同的预分类情况下使用不同的滤波方式，以得到该情形相应的震级并基于多种情景假设共同预估出震级。\\
+\indent Kanamori(2005)随后提出了一种对$\tau_{p}^{\max}$改进的捕捉特征周期计算方法，称为$\tau_{\mathrm{c}}$方法，计算方法如下：\\
 \begin{equation}
 \mathrm{r}=\frac{\int_{0}^{\tau_{0}} \dot{\mathrm{u}}^{2}(\mathrm{t}) \mathrm{dt}}{\int_{0}^{\tau_{0}} \mathrm{u}^{2}(\mathrm{t}) \mathrm{dt}}
 \end{equation}
@@ -162,26 +22,41 @@
 \tau_{\mathrm{c}}=\frac{2 \pi}{\sqrt{\mathrm{r}}}
 \end{equation}
 其中u和$\dot{u}$̇是地震台站垂直分量记录的地表位移和速度，所计算的系数r是对特征频率平方的一种估计。式中积分区间为$\left[0, \tau_{0}\right]$，代表台站触发P波记录后$\tau_{0}$秒内的记录。研究表明，在大多数情况下$\tau_{0}$设置为3s即可(Wu and Kanamori, 2005a, 2005b, 2007)。使用Parseval定理可以将(2)和(3)式改写为：
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=0.7\linewidth]{img/kanamori2008_taoc.jpg} 
+ \renewcommand{\figurename}{图} 
+\caption{M-P神经元模型示意图} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{M-P Neurons model schematic} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+
 \begin{equation}
 \mathrm{r}=\frac{4 \pi^{2} \int_{0}^{\infty} f^{2}|\widehat{u}(f)|^{2} d f}{\int_{0}^{\infty}|a(f)|^{2} d f}=4 \pi^{2}\left\langle f^{2}\right\rangle
 \end{equation}
 \begin{equation}
 \tau_{c}=\frac{1}{\sqrt{\left\langle f^{2}\right\rangle}}=\frac{2 \pi}{\sqrt{r}}
 \end{equation}
-其中$\widehat{u}(f)$为位移记录u(t)的频谱，$\left\langle f^{2}\right\rangle$为以$|\hat{u}(f)|^{2}$加权的频率平方平均值。在此定义下，$\tau_{\mathrm{c}}$即为P波初至时段内地震波的主要周期，也即是对P拐角频率的另一种特征估计，故可以用于估计断层破裂情况。与$\tau_{p}^{\max}$相比，$\tau_{\mathrm{c}}$方法更为稳定，需要更少的台站就可以得到稳定预测结果。在实践中，$\tau_{\mathrm{c}}$对于不同地区的差异性也更小 (Wu et al., 2005, 2008)，在中国台湾、美国加州、日本地区都能得到一致结果。
+其中$\widehat{u}(f)$为位移记录u(t)的频谱，$\left\langle f^{2}\right\rangle$为以$|\hat{u}(f)|^{2}$加权的频率平方平均值。在此定义下，$\tau_{\mathrm{c}}$即为P波初至时段内地震波的主要周期，也即是对P拐角频率的另一种特征估计，故可以用于估计断层破裂情况。与$\tau_{p}^{\max}$相比，$\tau_{\mathrm{c}}$方法更为稳定，需要更少的台站就可以得到稳定预测结果。在实践中，$\tau_{\mathrm{c}}$对于不同地区的差异性也更小 (Wu et al., 2005, 2008)，在中国台湾、美国加州、日本地区都能得到一致结果。\\
 
 \section{特征幅值类方法}
 
  \indent 使用地震台站记录的特征幅值预估震级的方式表面上与传统的震后震级确定的方法很接近，但从工作原理上来看两者有重要区别。由于时效性需求，特征幅值类方法要求使用短时间少量信息提取出特征幅值以预估震级，而震后确定工作更多完成的是标定工作。地震波在地球介质传播过程中，震动幅值会随着震中距的增大而衰减，特征幅值类的预估过程中就是利用了这种衰减关系。相同情况下由位移信息提取的幅值参数所得到的预估震级结果优于由速度、加速度信息所得的 (马强等, 2008)，而台站记录中垂直向分量中的Ｐ波最为发育，故此类方法基本选择从台站垂直向记录中提取位移特征幅值。
  
- \indent 特征幅值类算法中，$\mathrm{P}_{\mathrm{d}}$方法最优。$\mathrm{P}_{\mathrm{d}}$一般定义为，台站垂直分量的位移记录在Ｐ波触发后3s时窗采用２阶高通巴特沃斯滤波器(常见低频截止频率为0.075Hz)滤波后的位移最大值（Wu et al., 2007）。$\mathrm{P}_{\mathrm{d}}$参数不仅与震级有关，也与地震动速度峰值PGV和加速度峰值PGA之间有相关性。$\mathrm{P}_{\mathrm{d}}$参数比较稳定，对地区差异性不敏感，经过震中距R修正后的规律在不同国家和地区都得到了统一验证，因此$\mathrm{P}_{\mathrm{d}}$参数可以作为预警目标区地震烈度估计的有利判据。$\mathrm{P}_{\mathrm{d}}$与$\mathrm{M}_{\mathrm{w}}$、PGV的关系可以表示为
+ \indent 特征幅值类算法中，$\mathrm{P}_{\mathrm{d}}$方法最优。$\mathrm{P}_{\mathrm{d}}$一般定义为，台站垂直分量的位移记录在Ｐ波触发后3s时窗采用２阶高通巴特沃斯滤波器(常见低频截止频率为0.075Hz)滤波后的位移最大值（Wu et al., 2007）。$\mathrm{P}_{\mathrm{d}}$参数不仅与震级有关，也与地震动速度峰值PGV和加速度峰值PGA之间有相关性。$\mathrm{P}_{\mathrm{d}}$参数比较稳定，对地区差异性不敏感，经过震中距R修正后的规律在不同国家和地区都得到了统一验证，因此$\mathrm{P}_{\mathrm{d}}$参数可以作为预警目标区地震烈度估计的有利判据。$\mathrm{P}_{\mathrm{d}}$与$\mathrm{M}_{\mathrm{w}}$、PGV的关系可以表示为\\
 \begin{equation}
 \log \left(\mathrm{P}_{\mathrm{d}}\right)=\mathrm{A}_{1}+\mathrm{A}_{2} \mathrm{M}_{\mathrm{W}}+\mathrm{A}_{3} \log (\mathrm{R})
 \end{equation}
- \begin{equation}
+\begin{equation}
 \log \left(\mathrm{P}_{\mathrm{d}}\right)=\mathrm{B}_{1}+\mathrm{B}_{2} \log (\mathrm{PGV})
 \end{equation}
- 其中MW为矩震级，$\mathrm{A}_{\mathrm{i}}$和$\mathrm{B}_{\mathrm{i}}$分别为在局部地区$\mathrm{P}_{\mathrm{d}}$与$\mathrm{M}_{\mathrm{w}}$和$\mathrm{P}_{\mathrm{d}}$线性关系系数。$\mathrm{P}_{\mathrm{d}}$方法的劣势在于存在震级饱和现象。若设置时间窗长度为3s时，$\mathrm{P}_{\mathrm{d}}$方法的饱和震级约为6.5级，而当时间窗长度达到4s时饱和震级可以提高至7.0级 (Zollo et al., 2006)。
+ 其中MW为矩震级，$\mathrm{A}_{\mathrm{i}}$和$\mathrm{B}_{\mathrm{i}}$分别为在局部地区$\mathrm{P}_{\mathrm{d}}$与$\mathrm{M}_{\mathrm{w}}$和$\mathrm{P}_{\mathrm{d}}$线性关系系数。$\mathrm{P}_{\mathrm{d}}$方法的劣势在于存在震级饱和现象。若设置时间窗长度为3s时，$\mathrm{P}_{\mathrm{d}}$方法的饱和震级约为6.5级，而当时间窗长度达到4s时饱和震级可以提高至7.0级 (Zollo et al., 2006)。\\
  
 
  
