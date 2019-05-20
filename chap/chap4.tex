@@ -109,7 +109,7 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 \indent 图4.7两子图展示了NN方法和K方法对于不同震级，只使用单一垂向台站信息的情况下进行震级预估的误差分布。整体而言在各个震级上K方法预估的表现更为稳定但是误差均大于NN方法。各个震级单台站平均误差中，NN方法最大误差出现在7级以上地震约为1.6，K方法最小误差出现在6级地震约为1.1。\\
 \indent K方法中单台站的预测误差大小随着震级增加而略微减小。这种现象可能由于图4.8中所示的地震事件与台站记录数量分布随震级增加每个事件被记录到的台站数越多的特征。这种特征使得大型地震相对较小地震有更多数据记录，也就意味着K方法中使用$\left(\tau_{\mathrm{c}}\right)$平均值做震级预估时的特征时是更为无偏的估计，进而在以地震事件为视角做$\left(\tau_{\mathrm{c}}\right)$与$\mathbf{M}_{\mathbf{w}}$线性回归时得到参数能更好应用于较大型地震的震级预估。注意到图4.8考虑因6级以上地震发生频率低、数据量较少故并没有进行展示。\\
 \indent 图4.7（a）为NN方法的误差分布分为蓝色和红色两个区域。中间的蓝色区域内单台站预估出的震级误差稳定，而两侧红色区域误差随震级有较大的变化。结合4.7（b）结果佐证了在蓝色区域内物理本质上较为容易进行震级预估，一方面4级至6级地震的被台站记录数量足够多。同时地震破裂过程时长适中，能在较好被P波初到后3s的时长台站数据估计出。另一方面从考虑由于NN方法为机器学习方法，其本身是解释能力很强的方法，但在两侧红色区域仍不能轻易得到好的预估结果。这从反面一定程度上说明了在两侧红色区域存在客观问题使得震级预估问题本身不易实现。对于左侧红色区域NN模型的表现与K模型相似，可以认为因为数据量导致的震级预估不准确对于两种方法都存在。而右端红色高误差区域，可能是因为高能量地震的破裂情况难以被P波初到后3s的数据解释。\\
-\begin{figure}[!h] 
+\begin{figure}[h] 
 \centering 
 \includegraphics[width=\linewidth]{img/eb.eps} 
 \renewcommand{\figurename}{图} 
@@ -125,11 +125,10 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-\indent 图4.9显示了K方法与NN方法以地震事件为视角震级预估的稳定性情况，两子图是为以不同最低截至震级下震级预估方差的分布。可以看出在两种情形下，NN模型预估震级的总方差更小效果更为稳定。并且从震级预估的方差分布角度来看，NN模型在两种最低截至震级情形下都不仅左移而且峰度更大，综合来看NN模型的稳定性优于Kanamori(2008)的$\tau_{\mathrm{c}}$方法。\\
-\begin{figure}[!h] 
+\begin{figure}[h] 
 \centering 
- \includegraphics[width=\linewidth]{img/M-N.png} 
- \renewcommand{\figurename}{图} 
+\includegraphics[width=\linewidth]{img/M-N.png} 
+\renewcommand{\figurename}{图} 
 \caption{数据集中地震事件与台站记录数量分布。横轴为事件震级$\mathbf{M}_{\mathbf{w}}$，纵轴为事件被记录到的数量} 
 %英文标题begin 
 \addtocounter{figure}{-1} \vspace{-5pt} 
@@ -140,7 +139,9 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-\begin{figure}[!h] 
+
+\indent 图4.9展示了K方法与NN方法以地震事件为视角震级预估的稳定性情况，两子图是为以不同最低截至震级下预估误差方差的分布。可以看出在两种情形下，NN模型预估震级误差的总方差都更小展现出稳定的表现。并且从震级预估的方差分布特点来看，NN模型在两种最低截至震级情形下都展现出左移且高峰度的特点。综合来看NN模型的稳定性优于Kanamori(2008)的$\tau_{\mathrm{c}}$方法。\\
+\begin{figure}[h] 
 \centering 
  \includegraphics[width=\linewidth]{img/9.eps} 
  \renewcommand{\figurename}{图} 
