@@ -6,10 +6,10 @@
 \indent 随着大数据时代到来，现代生产建设中设备不断电子化使得数据量呈指数增长，同时电子计算机硬件性能不断突破、计算能力不断提高,这些变化都给人工智能领域快速发展提供了优渥的土壤。例如具体到人工智能中的深度学习算法，过去受限于数据量和计算能力导致应用范围有限进展缓慢，而目前随着各领域大数据的帮助和图形处理器的广泛使用已经开始应用于各个各行各业。相比传统的统计学习方法，机器学习类方法的设计更加复杂多样，原理上提供了无需手动进行特征工程而是通过模型深层结构的学习到数据内在规律的可能性。\\
 \indent 在过去90年代中，止人工智能与地球物理学的联合交叉应用仍处于起步阶段。很多学者对于机器学习算法拾取P波初至的问题进行了深入的探索（Murat et al., 1993；D.McCormack et al., 1993;）， 但受限于当时算法和数据的局限大部分研究都处于尝试阶段。随着宽频带地震仪的普及与全球各地高密度台网的出现，台站地震数据数量和质量双双大幅提升，地球物理学领域的人工智能方法不断前进获得井喷式的发展。CNN模型在地下结构反演方向得到优秀的应用（Das et al., 1993)，而端到端训练的CNN、DnCNN模型在地震数据的噪音压制方面的优势也不断被挖掘（王钰清等， 2019），例如在数据增广插值（Wang et al., 1993)、微地震识别和地震事件检测（John et al., 2018)等地球物理与人工智能交叉应用的其他方向也有长足发展。\\
 \section{神经网络类算法}
-\indent 考虑到特征频率和特征幅值两类算法的局限性，本文首先选取了机器学习中神经网络类算法进行对传统方法进行改进。神经元是构成神经网络最基础的单元，它的结构可抽象成如下图1所示的简单数学模型 (McCulloch and Pitts, 1943），即“M-P神经元模型”。在这个模型中，一个神经元接收到来自n个其他神经元传递过来的输入信号$\mathrm{X}_{\mathrm{i}}$，这些输入信号通过带权重$\mathrm{w}_{\mathrm{i}}$的连接方式进行传递，并将神经元接收到的总输入值$\sum_{i=1}^{n} W_{i} x_{i}$将与神经元的阀值θ进行比较，然后通过“激活函数”处理以产生神经元的输出，这样就完成一个神经元的运算过程。把许多个这样的神经元按一定的层次结构连接起来，就得到各种结构的神经网络。\\
+\indent 考虑到特征频率和特征幅值两类算法的局限性，本文首先选取了机器学习中神经网络类算法进行对传统方法进行改进。神经元是构成神经网络最基础的单元，它的结构可抽象成如下图3.1所示的简单数学模型 (McCulloch and Pitts, 1943），即“M-P神经元模型”。在这个模型中，一个神经元接收到来自n个其他神经元传递过来的输入信号$\mathrm{X}_{\mathrm{i}}$，这些输入信号通过带权重$\mathrm{w}_{\mathrm{i}}$的连接方式进行传递，并将神经元接收到的总输入值$\sum_{i=1}^{n} W_{i} x_{i}$将与神经元的阀值θ进行比较，然后通过“激活函数”处理以产生神经元的输出，这样就完成一个神经元的运算过程。把许多个这样的神经元按一定的层次结构连接起来，就得到各种结构的神经网络。\\
 \begin{figure}[!h] 
 \centering 
- \includegraphics[width=0.75\linewidth]{img/mp.eps} 
+ \includegraphics[width=0.85\linewidth]{img/mp.eps} 
  \renewcommand{\figurename}{图} 
 \caption{M-P神经元模型示意图} 
 %英文标题begin 
@@ -40,7 +40,7 @@ $\mathrm{L}_{1}$、$\mathrm{L}_{2}$范数的进行正则约束以防止过拟合
 \begin{equation}
 \sigma(x)=\max (0, x)
 \end{equation}
-其中下角标C,$C^{\prime}$代表了输出层和输入层，上角标i代表第i个隐藏层。激活函数使用(3.4)式中所示的以0为分界的分段函数ReLU(Alex et al., 2012)。当此激活函数接收到前一隐层小于0的输入时输出0，而当接收到大于0的隐藏层输入时不做处理直接作为输出。NN模型以特征频率类方法的思想为基础，但区别于$\tau_{\mathrm{C}}$方法只使用垂直分量的信息，此NN神经网络的使用台站记录的全三分量信息，以期望得到不同分量联合与破裂规模的内在关系。\\
+其中下角标$C$,$C^{\prime}$代表了输出层和输入层，上角标i代表第i个隐藏层。激活函数使用(3.4)式中所示的以0为分界的分段函数ReLU(Alex et al., 2012)。当此激活函数接收到前一隐层小于0的输入时输出0，而当接收到大于0的隐藏层输入时不做处理直接作为输出。NN模型以特征频率类方法的思想为基础，但区别于$\tau_{\mathrm{C}}$方法只使用垂直分量的信息，此NN神经网络的使用台站记录的全三分量信息，以期望得到不同分量联合与破裂规模的内在关系。\\
 \indent 将3s时窗内的三分量傅里叶变换下的频谱信息并列为一维向量作为模型输入，直接将预估的震级结果设计为模型输出。整个NN模型共有7层神经网络，除去首尾的输入、输出层外共设置5个隐藏层以增强网络的非线性表达能力。根据Hinton(2012a,2012b)和Alex(2012)等人对于机器学习算法过拟合和避免网络陷入局部最优的相关研究，我们在第1和第3隐层后连接Dropout层以防止过拟合，同时加快有效训练速率。\\
 \begin{figure}[!h] 
 \centering 
@@ -59,50 +59,69 @@ $\mathrm{L}_{1}$、$\mathrm{L}_{2}$范数的进行正则约束以防止过拟合
 \subsection{CNN模型的设计}
 \indent 卷积神经网络(Convolutional Neural Networks)模型（Fukushima K,1979）是一类包含卷积计算且具有深度结构的前馈神经网络,在图像识别、语音识别等诸多领域有着非常广泛应用的深度学习模型。以常见的卷积神经网络应用场景中数据的结构和特征来看，无论是单通道的音频信息、时频信号还是图像处理问题中三通道RGB图像输入都与地震台站三分量地震波形数据有着很大的相似性。这些问题上的相似性使得CNN网络结构在处理地球物理学问题上有着得天独厚的优势，本文研究模型以图像分类中常用的LeNet-5 模型（LeCun Y et al.,1998）为基础框架，并根据Masaru(2019)等人关于地震问题特性进行SRSpec-CNN模型的相关研究 ，设计出针对三分量地震波形数据特点的震级紧急预估结构。\\
 \indent 在传统方法和上节中所提到的NN方法都没有利用到台站信息时序的特点。例如以$\mathbf{\tau}_{\mathrm{c}}$为核心的震级预估算法是直接利用截断时间内频率域特点，并没有利用到台站记录数据中所拥有的P波时间结构特征。3.2.1节所描述的NN方法也只是利用神经网络算法所拥有的强大表达能力，从频率域数据中挖掘出更多描述能量的特征用以进行震级预估。而本章节所设计的CNN震级预估模型中输入信息为如图3.3所示的拥有时间结构小波信号，这就提供了利用P波时间结构特点的可能性。\\
-\indent 小波变换是20世纪80年代由石油信号处理工程师J.Morlet提出并发展起来的一种变换分析的新方法（J.Morlet et al., 1983，1984，1985）。小波变换作为时频变换方法，在短时傅里叶变化（Short-time Fourier Transform,STFT）的基础上更多体现出能良好时频局部化特性。在此之前的时频分析领域最为主流的短时傅里叶变换，主体思想为将整个时间域过程分解成在时间上等长的多个小过程分段进行傅里叶变换，并假设这些短过程间的信号是平稳并且相似的。但真实世界中的很多信号都是非平稳的，例如地震台站所记录到的地震波信号
-此拥有不同时间的不同特征。方法提出以来
-具更是有可以同时在时间域和频率域分析的特点，在地震数据处理中有着重
-要的应用，近年来也已经被应用于震相拾取工作中（Chakraborty A, Okaya D. ,1995；
-刘希强, 周蕙兰, 沈萍,等, 2000）。
+\indent 小波变换是20世纪80年代由石油信号处理工程师J.Morlet提出并发展起来的一种变换分析的新方法（J.Morlet et al., 1983，1984，1985）。小波变换作为时频变换方法，在短时傅里叶变化（Short-time Fourier Transform,STFT）的基础上更多体现出能良好时频局部化特性。在此之前的时频分析领域最为主流的短时傅里叶变换，主体思想是将整个时间域过程分解成在时间上等长的多个小过程分段进行傅里叶变换，这些操作的基础假设为这些短过程间的信号是平稳并且相似的。短时傅里叶变换面临着离散出的小过程时窗过窄则频率分辨率不足，时窗过宽则时间分辨率不足的窘境，它不能随着所分析的信号是高频或低频信息的而相应变换。\\
+\indent 但事实上真实世界中的很多信号都是非平稳的，例如地震台站所记录到的地震波信号就在时序上变化剧烈，且在不同时段内拥有不同信号结构。在本问题的研究中希望使用100HZ台站在P波到时后的3秒数据进行震级预估，若使用简单的短时傅里叶变换会导致时间和频率分辨率都不足够。以上所描述的特征使得短时傅里叶变换不适用于处理地震信号，而为地球物理学领域而首次提出的小波方法，具有较好时频局部化特性良好的适配于地震数据的时频分析需求（Kristekov et al., 2006，2009）。\\
+\indent 小波变换可以分为连续小波变换（CWT）与离散小波变换（DWT）。因两种变换的特点不同，在实际应用中离散小波变换常用于降噪与数据压缩，而连续小波变换则更适合于信号特征的提取。故选取连续小波变换对台站记录的时域信号进行预处理（Kristekov et al., 2006）。在连续小波变换中，其自适应性体现在移动带的通滤波器的频率域窗口随着滤波器中心频率的增加而扩大。一个实信号s(t)的连续小波变换被定义为一个如（3.5）式所示卷积运算：\\
 \begin{equation}
-C W T_{(a, b)}\{s(t)\}=|a|^{-1 / 2} \int_{-\infty}^{\infty} s(t) \psi^{*}(t-b) / a d t
+C W T_{(a, b)}\{s(t)\}=\int_{-\infty}^{\infty} s(t) \frac{1}{\sqrt{a}} \Psi\left(\frac{t-b}{a}\right) d t
 \end{equation}
-
-
+其中t为时间，窗口函数$\psi_{a, b}(t)$为依赖参数a,b的小波基函数。而参数 a 和 b 分别为小波变换的伸缩因子和平移因子。考虑到平移因子和伸缩因子都是连续取值的，所以称对应的小波基函数族$\left\{\psi_{a, b}(t)\right\}$为连续小波基族。特殊的取Morlet小波基$\psi(t)=\pi^{-1 / 4} \exp \left(i \omega_{0} t\right) \exp \left(-t^{2} / 2\right)$。在此设置下，实信号s(t)的时频表示（TFR）被定义为如下的（3.6）式：\
+\begin{equation}
+W(t, f)=C W T_{(a, b)}\{s(t)\} ; \quad a=\omega_{0} / 2 \pi f,\quad  b=\tau
+\end{equation}
+\indent 根据Kristekov（2006）对于应用于地震数据的连续小波变换，将全数据集进行了小波变换预处理。将原本NN模型时间域的频率表示输入变为如3.3图左侧三子图所示的时频表示。每一个单独台站记录都转换为100*300*3的多维矩阵，可以看出时间域中没有直观区别的三分量记录在小波域上出现了明显的时序结构。这就使得在不使用更多台站、更多地震事件的情况下完成了数据增广和解析度提升，利用到了传统方法没用考虑到的时序结构特征用以预估震级大小。\\
 \begin{figure}[h] 
 \centering 
- \includegraphics[width=0.99\linewidth]{img/wavelet.jpg} 
+ \includegraphics[width=1.0\linewidth]{img/wavelet.jpg} 
  \renewcommand{\figurename}{图} 
-\caption{CNN深度神经网络输入信号：P波初到后三秒垂向小波时频谱图} 
+\caption{CNN深度神经网络输入信号：P波初到后3秒时间的台站三分量时域图与小波时频谱图} 
 %英文标题begin 
 \addtocounter{figure}{-1} \vspace{-5pt} 
 %\SetEnglishCaption 
 \renewcommand{\figurename}{Fig} 
-\caption{CNN deep neural network input signal: spectrum of the vertical wavelet when the P wave arrives for three seconds} 
+\caption{Station three-component time domain diagram and wavelet time spectrum diagram of 3 seconds after the first arrival of P wave} 
 \renewcommand{\figurename}{图} 
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-\indent CNN模型结构如图3所示，整体框架为CNN卷积神经网络。与NN模型相同，使用ReLU作为激活函数，使用全三分量信息，并仍以预估的震级结果作为模型输出。不同的是，CNN模型将3s时窗内的加速度记录处理为三维张量(tensor)作为模型输入，全网络共设置8层卷积层且无池化层设置。卷积层采取小卷积核进行卷积计算，同时采用2个步长的卷积时窗移动以帮助卷积核降采样。卷积隐藏层的运算方式见(10)式。在第8层卷积层后，将所有特征重排列与台站和震中经纬深度信息一同并列后，进行全连接运算输出。考虑到深度学习卓越的表达能力，$\mathbf{\tau}_{\mathrm{c}}$方法中傅里叶变换的预处理是很容易被卷积神经网络完成的，并且还会有更多其他的特征被卷积核提取。\\
-\indent 考虑到模型输入的信息量和CNN网络的表达能力，理论上此模型至少可达到$\mathbf{\tau}_{\mathrm{c}}$和$P_{d}$方法的效果。如图3所示，此模型与NN模型相比还引入了台站和震源的位置信息。并且不同于$P_{d}$方法中相对量震中距离的使用，引入台站和震源的坐标信息还在一定程度上可以帮助模型完成区域断层信息、地球介质模型记录，使模型作为区域震级预估方法有更出色的表现。此深度学习模型对原始输入信号进行逐层加工，从而把初始的、与输出目标之间联系不太密切的输入表示，转化成与输出联系更为密切的新表示方式，使得原本难以完成的任务成为可能（对比于NN模型频谱信息输入和最后输出间的映射）。\\
-\indent CNN模型端到端的模型设置导致其训练难度更大，也意味着就需要更多的训练数据，由于目前数据量不足暂时还未对CNN模型完成训练。\\
+\indent 以CNN模型为核心的震级预估模块工作流程如图3.4所示。因设计的只为震级预估模块，故暂时不考虑确认地震事件和地震事件定位模块。假定在已确认疑似地震并通过多台站定位出地震大致位置后。选取距离震中100Km以内全部台站记录，截取P波初到后3s内数据进行小波变换作为CNN模型输入进行单台站震级预估。最后使用多台站震级预估的算术平均结果作为整体模块震级预估的结果。\\
+\indent CNN模型的数据流和网络结构如图3.5所示，整体框架为卷积、池化间隔出现的神经网络。与3.2.1中NN模型相同，使用（3.4）式ReLU作为激活函数。输入输出端保持大体一致，使用台站全三分量信息小波变换后作为模型输入并仍以预估的震级结果作为模型输出。通过测试并参考John（2018）与Nakano（2019）等人关于卷积层卷积核大小的研究，决定在本问题中采取5*5的小卷积核进行卷积计算，同时采用2*2的步长移动的卷积时窗移动以帮助卷积核降采样。CNN模型卷积层的运算方式如(3.7)式所示，其中l代表隐藏层角标，j代表通道数，i代表在特征图（feature map）上的坐标。考虑到深度学习卓越的表达能力，$\mathbf{\tau}_{\mathrm{c}}$方法中傅里叶变换的预处理是很容易被卷积神经网络完成的，并且还会有更多例如不同分量间的关联的其他特征被卷积核提取以增加预估的准确性。\\
 \begin{figure}[h] 
 \centering 
- \includegraphics[width=0.99\linewidth]{img/CNN-paper.png} 
+ \includegraphics[width=1.0\linewidth]{img/Flow.jpg} 
  \renewcommand{\figurename}{图} 
-\caption{CNN深度神经网络结构示意图} 
+\caption{震级预估模块（CNN模型）工作流程图（以发生在日本地区39.32N,141.14E的4.6$\mathbf{M}_{\mathrm{w}}$地震为例）：第一步确认发生疑似地震，选取距震中100Km内的台站。第二步截取P波初到后3秒内三分量数据。第三步进行Morlet小波变换。第四步将台站时频表示输入到CNN模型中得到预估震级。} 
 %英文标题begin 
 \addtocounter{figure}{-1} \vspace{-5pt} 
 %\SetEnglishCaption 
 \renewcommand{\figurename}{Fig} 
-\caption{Schematic diagram of CNN deep neural network structure} 
+\caption{Workflow chart of the magnitude estimation module (CNN model) (take the 4.6$\mathbf{M}_{\mathrm{w}}$ earthquake in 39.32N, 141.14E in Japan as an example): The first step is to confirm the occurrence of a suspected earthquake, and select a station within 100Km from the epicenter. The second step intercepts the three-component data within 3 seconds after the first arrival of the P wave. The third step is to perform Morlet wavelet transform. The fourth step is to input the time-frequency representation of the station into the CNN model to obtain the estimated magnitude.} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+\begin{equation}
+\mathbf{Z}_{j}^{\ell}=\sigma\left(\sum_{i \in M_{j}} \mathbf{Z}_{i}^{\ell-1} * \mathbf{k}_{i j}^{\ell}+b_{j}^{\ell}\right)
+\end{equation}
+\indent 考虑到模型输入的信息量和CNN网络的表达能力，理论上此模型至少可达到$\mathbf{\tau}_{\mathrm{c}}$和$P_{d}$方法的效果。并且不同于$P_{d}$方法中相对量震中距离的使用，引入台站记录的三分量间的信息一定程度上可以帮助模型完成区域断层信息、地球介质模型记录，使模型作为区域震级预估方法有更出色的表现。此深度学习模型对小波变换输入信号进行逐层加工，从而把初始的、与输出目标之间联系不太密切的输入表示，转化成与输出联系更为密切的新表示方式，使得原本难以完成的任务成为可能（对比于NN模型频谱信息输入和最后输出间的映射）。\\
+\indent 因为本CNN模型震级预估模型的输入信息为三分量小波变换时频信息，这直接导致数据量整体扩大了2个数量级。造成了训练过程中对计算机缓存和显卡缓存的很高性能要求，以至于在本文研究中并不能够完全使用NN模型所使用的全数据集，大约使用了全数据集的30\%作为CNN震级预估模型的全数据集。\\
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=0.99\linewidth]{img/CNN-paper.jpg}
+ \renewcommand{\figurename}{图} 
+\caption{CNN模型的数据流和网络结构。每层结构中的图像尺寸用长方体示意，颜色中紫色代表卷积层的输出，粉色代表池化层的输出，而红色示意了卷积核的大小。图中相应的数字代表了每层网络中图像宽度、高度和通道数的矩阵大小。Conv，Pool和FC分别代表卷积层，池化层和全连接层。} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{The data flow and network structure of the CNN model. The image size in each layer structure is indicated by a rectangular parallelepiped, in which purple represents the output of the convolution layer, pink represents the output of the pooled layer, and red represents the size of the convolution kernel. The corresponding numbers in the figure represent the matrix size of the image width, height and number of channels in each layer of the network. Conv, Pool and FC represent the convolutional layer, the pooled layer and the fully connected layer, respectively.} 
 \renewcommand{\figurename}{图} 
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
 \section{模型评估与选择}
  \indent 通常上我们把机器学习器在训练集上的误差称为训练误差（training error）或者经验误差（generalization error），在新样本上的误差称为泛化误差（generalization error）。原则上人们希望最终得到一个泛化误差小的模型，也就是模型在面对没有出现在训练集中的新数据能有优异的预测性。但事实上我们并不知道新的样本是什么样的，具体到本问题中对于还未发生的地震我们并不知道其发震断层的模型，也不清楚震源附近的介质模型，实际上能做的是努力使训练误差最小化。在很多情况下，我们都可以使模型学习到一个在训练集上表现很好，经验误差很小的机器学习器。甚至对于整个训练数据集没有错误分类达到100\%准确率或者完全没有预测误差的学习器，但这样的机器学习器在绝大多数的情况下并没有好的泛化能力。\\
- \indent 机器学习核心的训练目标是在新样本上表现卓越。为了达到这个目的，我们要使模型从训练数据中尽可能的学习到问题"内在规律"，这样才能使模型在遇到实时地震台站数据记录时做出正确判别。当学习器把训练样本学得“太好”时，很可能已经把训练样本自身的一些特点当作了所有潜在样本都会具有的一般性质，这就很会导致泛化性能下降。此现象在机器学习中称之为"过拟合"（overfitting），与之相对应“欠拟合”（underfitting），这是指对训练样本的一般性质尚未学习好。
+ \indent 机器学习核心的训练目标是在新样本上表现卓越。为了达到这个目的，我们要使模型从训练数据中尽可能的学习到问题"内在规律"，这样才能使模型在遇到实时地震台站数据记录时做出正确判别。当学习器把训练样本学得“太好”时，很可能已经把训练样本自身的一些特点当作了所有潜在样本都会具有的一般性质，这就很会导致泛化性能下降。此现象在机器学习中称之为"过拟合"（overfitting），与之相对应“欠拟合”（underfitting），这是指对训练样本的一般性质尚未学习好。\\
  
 %  直观展示了过拟合和欠拟合的区别。
  
@@ -150,4 +169,4 @@ C W T_{(a, b)}\{s(t)\}=|a|^{-1 / 2} \int_{-\infty}^{\infty} s(t) \psi^{*}(t-b) /
 \indent 若只确定模型大方向的结构，而并未确定例如CNN模型中卷积核大小、池化层池化核移动方式等。在这些具体参数并没固定的情况下，我们需要对模型结构和参数同时进行选择。以上的问题导致了若只使用“训练-测试”的数据划分方式难以对模型泛化能力进行评估。在本文研究中我们结合了朴素留出法和交叉验证法的特点，将所有的地震记录划分为训练集、交叉验证集（cross validation set）和测试集三部分。我们随机将全台站地震记录集的70\%数据划分为训练集，10\%划分为交叉检验集，20\%划分为测试集。区别于以上两种传统模型的数据划分方式，增添了交叉验证集。\\
 \indent 考虑到模型训练的时间和效率的限制，不同于交叉检验法的多组模型训练，本次研究采取朴素留出思想只训练出一组模型。使用交叉验证集取代原测试集的作用，结合训练集的数据反复进行模型参数训练，继而对模型训练成果进行评估，最终在完全没有参与过使用的测试集上进行最终的模型选择。\\
 \indent 在数据集划分方面更多需要注意的是，由于同一地震事件会有多个台站记录，这些不同台站记录到同一个地震数据间极其相似。这就导致了在划分数据集时不能将这些同属于一个地震事件的单条数据划分到不同数据集合中。否则等同于不同集合之间发生了信息泄露，使得交叉验证集和测试集失去了其存在的意义，所显示出来的泛化能力都是虚假的。\\
-\indent 在以一个地震事件为“最小”数据单位的要求下,同时考虑到之前使训练集和测试集分布保持一致性和互斥性的情况下爱,就暴露出了数据总体上数据分布不均和数据量不够的问题，在接下来的第四章中会详细介绍优化和解决方案。\\
+\indent 在以一个地震事件为“最小”数据单位的要求下,同时考虑到之前使训练集和测试集分布保持一致性和互斥性的情况下,就暴露出了数据总体上数据分布不均和数据量不够的问题。并且在3.2.2节中所描述的CNN模型结构因为计算机性能的客观原因，还并不能支持全数据集的使用，这又加重了CNN模型训练的难度。在接下来的第4节中会详细介绍优化和解决方案。\\

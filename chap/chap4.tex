@@ -1,9 +1,9 @@
-\chapter{机器学习方法预估震级效果评估与讨论 }
+\chapter{日本地区机器学习方法预估震级效果}
 \section{数据分析与预处理}
 \indent 利用第二、三章所描述的方法，本文搭建并实现了$\tau_{c}$方法和机器学习类模型进行效果检验。考虑到震级紧急预估的应用场景和所需要的基础设施需求，我们将研究区域定位日本主岛区域附近。考虑到地震紧急预估的时效性，选取地震事件距离台站为1个相对经纬距离（约100km）内的记录。原始全数据集使用了日本KIK和KNET两台站网从2015至2017年所记录到的所有大于3级且震源靠近日本岛主体的地震记录，除此之外并无经过其他任何的主动事件挑选，事件分布如下图4.1所示。\\
 \begin{figure}[!h] 
 \centering 
- \includegraphics[width=0.8\linewidth]{img/basemap.jpg} 
+ \includegraphics[width=0.9\linewidth]{img/basemap.jpg} 
  \renewcommand{\figurename}{图} 
 \caption{全数据集地震事件} 
 %英文标题begin 
@@ -53,7 +53,8 @@
 \end{figure}
 
 
-\section{NN方法与传统方法的效果评估与比较}
+\section{机器学习类模型与传统模型的比较}
+\subsection{NN震级预估模型的效果评估与比较}
 \indent 训练曲线如图4.4所示，图中两条图线分别代表了训练集和交叉验证集的均方根误差（RMSE）随着训练步数的变化。NN模型在经过大约15000个步训练步长后，达到此模型结构下的最佳权值状态。超过15000个训练步长后后虽然训练数据集级上模型表现持续变好，但在交叉检验数据集上RMSE停止减小并开始增大，说明模型已经进入第3章所描述的过拟合状态，此时再增加训练轮数只会让模型更加过拟合拥有更差的。故当完成15000个训练步长时触发提前停止条件(Early Stopping)，在此训练步数上停止训练并存储此时的模型最佳权值。\\
 \begin{figure}[!h] 
 \centering 
@@ -109,7 +110,7 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 \indent 图4.7两子图展示了NN方法和K方法对于不同震级，只使用单一垂向台站信息的情况下进行震级预估的误差分布。整体而言在各个震级上K方法预估的表现更为稳定但是误差均大于NN方法。各个震级单台站平均误差中，NN方法最大误差出现在7级以上地震约为1.6，K方法最小误差出现在6级地震约为1.1。\\
 \indent K方法中单台站的预测误差大小随着震级增加而略微减小。这种现象可能由于图4.8中所示的地震事件与台站记录数量分布随震级增加每个事件被记录到的台站数越多的特征。这种特征使得大型地震相对较小地震有更多数据记录，也就意味着K方法中使用$\left(\tau_{\mathrm{c}}\right)$平均值做震级预估时的特征时是更为无偏的估计，进而在以地震事件为视角做$\left(\tau_{\mathrm{c}}\right)$与$\mathbf{M}_{\mathbf{w}}$线性回归时得到参数能更好应用于较大型地震的震级预估。注意到图4.8考虑因6级以上地震发生频率低、数据量较少故并没有进行展示。\\
 \indent 图4.7（a）为NN方法的误差分布分为蓝色和红色两个区域。中间的蓝色区域内单台站预估出的震级误差稳定，而两侧红色区域误差随震级有较大的变化。结合4.7（b）结果佐证了在蓝色区域内物理本质上较为容易进行震级预估，一方面4级至6级地震的被台站记录数量足够多。同时地震破裂过程时长适中，能在较好被P波初到后3s的时长台站数据估计出。另一方面从考虑由于NN方法为机器学习方法，其本身是解释能力很强的方法，但在两侧红色区域仍不能轻易得到好的预估结果。这从反面一定程度上说明了在两侧红色区域存在客观问题使得震级预估问题本身不易实现。对于左侧红色区域NN模型的表现与K模型相似，可以认为因为数据量导致的震级预估不准确对于两种方法都存在。而右端红色高误差区域，可能是因为高能量地震的破裂情况难以被P波初到后3s的数据解释。\\
-\begin{figure}[h] 
+\begin{figure}[!h] 
 \centering 
 \includegraphics[width=\linewidth]{img/eb.eps} 
 \renewcommand{\figurename}{图} 
@@ -125,7 +126,7 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-\begin{figure}[h] 
+\begin{figure}[!h] 
 \centering 
 \includegraphics[width=\linewidth]{img/M-N.png} 
 \renewcommand{\figurename}{图} 
@@ -141,7 +142,7 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 \end{figure}
 
 \indent 图4.9展示了K方法与NN方法以地震事件为视角震级预估的稳定性情况，图4的两个子图是在设置不同最低截至震级下预估误差方差的分布。可以看出在两种情形下，NN模型预估震级误差的总方差都更小展现出稳定的表现。并且从震级预估的方差分布特点来看，NN模型在两种最低截至震级情形下都展现出左移且高峰度的特点。综合来看NN模型的稳定性优于Kanamori(2008)的$\tau_{\mathrm{c}}$方法。\\
-\begin{figure}[h] 
+\begin{figure}[!h] 
 \centering 
  \includegraphics[width=\linewidth]{img/9.eps} 
  \renewcommand{\figurename}{图} 
@@ -161,4 +162,4 @@ magnitude 4; \\
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-
+\subsection{CNN震级预估模型的效果评估与比较}
