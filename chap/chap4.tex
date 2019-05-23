@@ -77,13 +77,13 @@
 \centering 
 \includegraphics[width=\linewidth]{img/7.eps} 
 \renewcommand{\figurename}{图} 
-\caption{震级预估效果对比(最小震级4级)，横轴为真实震级。\\
+\caption{震级预估效果对比(最低截至震级为3级)。横轴为真实震级。\\
 (a) 采用Kanamori et al. (2008)方法的结果，纵轴为K方法的$\log \left(\tau_{\mathrm{c}}\right)$；(b) NN模型的结果，纵轴为机器学习模型给出的预估震级} 
 %英文标题begin 
 \addtocounter{figure}{-1} \vspace{-5pt} 
 %\SetEnglishCaption 
 \renewcommand{\figurename}{Fig} 
-\caption{The magnitude prediction effect is compared (minimum magnitude 4) and the horizontal axis is the real magnitude.\\
+\caption{Comparison of magnitude prediction effects (minimum to magnitude 3). The horizontal axis is the true magnitude.\\
 (a) Using the results of Kanamori et al. (2008), the vertical axis is the $\log \left(\tau_{\mathrm{c}}\right)$ of the K method; (b) the result of the NN model, the vertical axis is the predicted magnitude given by the machine learning model.} 
 \renewcommand{\figurename}{图} 
 %英文标题end 
@@ -94,34 +94,33 @@
 \centering 
 \includegraphics[width=\linewidth]{img/8.eps} 
 \renewcommand{\figurename}{图} 
-\caption{ 震级预估效果对比(最小震级3级)。横纵坐标同图4.4。\\
+\caption{震级预估效果对比(最低截至震级为3级)。横纵坐标同图4.5。\\
 (a) 采用Kanamori et al. (2008)方法的结果；(b) NN模型的结果} 
 %英文标题begin 
 \addtocounter{figure}{-1} \vspace{-5pt} 
 %\SetEnglishCaption 
 \renewcommand{\figurename}{Fig} 
-\caption{The magnitude of the earthquake prediction results (minimum magnitude 3). \\
-The horizontal and vertical coordinates are the same as in Figure 4.4.
+\caption{Comparison of magnitude prediction effects (minimum to magnitude 3). The horizontal and vertical coordinates are the same as in Figure 4.5. \\
 (a) Results using Kanamori et al. (2008) (b) The results of NN model} 
 \renewcommand{\figurename}{图} 
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-\indent 图4.7两子图展示了NN方法和K方法对于不同震级，只使用单一垂向台站信息的情况下进行震级预估的误差分布。整体而言在各个震级上K方法预估的表现更为稳定但是误差均大于NN方法。各个震级单台站平均误差中，NN方法最大误差出现在7级以上地震约为1.6，K方法最小误差出现在6级地震约为1.1。\\
+\indent 图4.7两子图展示了NN方法和K方法对于不同震级的地震记录，只使用单一台站三分量信息的情况下进行预估的误差情况。整体而言在各个震级上K方法预估的表现虽然稳定但误差均大于NN方法。对所有地震的单台站预估平均误差中，NN方法效果最差误差最大出现在7级以上地震约为1.6级，K方法效果最好误差最小出现在6级地震但平均误差仍有1.1级。\\
 \indent K方法中单台站的预测误差大小随着震级增加而略微减小。这种现象可能由于图4.8中所示的地震事件与台站记录数量分布随震级增加每个事件被记录到的台站数越多的特征。这种特征使得大型地震相对较小地震有更多数据记录，也就意味着K方法中使用$\left(\tau_{\mathrm{c}}\right)$平均值做震级预估时的特征时是更为无偏的估计，进而在以地震事件为视角做$\left(\tau_{\mathrm{c}}\right)$与$\mathbf{M}_{\mathbf{w}}$线性回归时得到参数能更好应用于较大型地震的震级预估。注意到图4.8考虑因6级以上地震发生频率低、数据量较少故并没有进行展示。\\
 \indent 图4.7（a）为NN方法的误差分布分为蓝色和红色两个区域。中间的蓝色区域内单台站预估出的震级误差稳定，而两侧红色区域误差随震级有较大的变化。结合4.7（b）结果佐证了在蓝色区域内物理本质上较为容易进行震级预估，一方面4级至6级地震的被台站记录数量足够多。同时地震破裂过程时长适中，能在较好被P波初到后3s的时长台站数据估计出。另一方面从考虑由于NN方法为机器学习方法，其本身是解释能力很强的方法，但在两侧红色区域仍不能轻易得到好的预估结果。这从反面一定程度上说明了在两侧红色区域存在客观问题使得震级预估问题本身不易实现。对于左侧红色区域NN模型的表现与K模型相似，可以认为因为数据量导致的震级预估不准确对于两种方法都存在。而右端红色高误差区域，可能是因为高能量地震的破裂情况难以被P波初到后3s的数据解释。\\
 \begin{figure}[!h] 
 \centering 
 \includegraphics[width=\linewidth]{img/eb.eps} 
 \renewcommand{\figurename}{图} 
-\caption{不同方法方法下单一台站记录的误差分布\\
-(a)NN方法误差分布~（b）K方法误差分布} 
+\caption{不同方法在只使用单台站信息下不同震级地震预估的误差情况\\
+(a)NN方法对不同震级地震的预估误差。其中两侧红色区域为预估非稳定区域，中间蓝色区域为稳定区域（b）K方法法对不同震级地震的预估误差} 
 %英文标题begin 
 \addtocounter{figure}{-1} \vspace{-5pt} 
 %\SetEnglishCaption 
 \renewcommand{\figurename}{Fig} 
-\caption{Error distribution of single station recording under different method methods\\
-(a) NN method error distribution ~ (b) K method error distribution} 
+\caption{Errors of different magnitude earthquake predictions under different methods using only one station information\\
+(a) Estimation error of NN methods for earthquakes of different magnitudes. The red area on both sides is the estimated unsteady area, the middle blue area is the stable area (b)K method method, the prediction error of earthquakes of different magnitudes} 
 \renewcommand{\figurename}{图} 
 %英文标题end 
 \label{fig:network-device-influence.png} 
@@ -140,7 +139,6 @@ The horizontal and vertical coordinates are the same as in Figure 4.4.
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
-
 \indent 图4.9展示了K方法与NN方法以地震事件为视角震级预估的稳定性情况，图4的两个子图是在设置不同最低截至震级下预估误差方差的分布。可以看出在两种情形下，NN模型预估震级误差的总方差都更小展现出稳定的表现。并且从震级预估的方差分布特点来看，NN模型在两种最低截至震级情形下都展现出左移且高峰度的特点。综合来看NN模型的稳定性优于Kanamori(2008)的$\tau_{\mathrm{c}}$方法。\\
 \begin{figure}[!h] 
 \centering 
@@ -162,4 +160,46 @@ magnitude 4; \\
 %英文标题end 
 \label{fig:network-device-influence.png} 
 \end{figure}
+
+
 \subsection{CNN震级预估模型的效果评估与比较}
+\indent 跟据3.3.2中所设计的CNN震级预估模型，本文搭建并完成了相应深度学习神经网络。由于计算机性能限制本模型只使用了全数据集50\%的数据量进行模型训练与评估。将训练好的模型在预设的验证集进行效果评估如图4.10和图4.11所示。其中图4.10展示了对于不同震级的地震记录，只使用单一台站信息的情况下进行预估的误差情况。在图中存在三种颜色区域，其中红色仍未震级预估不稳定区域，相比于NN模型的结果其中4到6级的预估效果仍然稳定并且在3.5到4级之间的绿色区域由NN模型的不稳定红色区域变为稳定区域。\\
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=\linewidth]{img/eb1_cnn.png} 
+ \renewcommand{\figurename}{图} 
+\caption{CNN震级预估模型单一台站记录的误差分布} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{Error Distribution of Single Station Record in CNN Magnitude Estimation Model} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+\begin{figure}[!h] 
+\centering 
+ \includegraphics[width=\linewidth]{img/CNN-PRE.eps} 
+ \renewcommand{\figurename}{图} 
+\caption{CNN模型震级预估效果\\
+（a）最低截至震级为3级（b）最低截至震级为4级} 
+%英文标题begin 
+\addtocounter{figure}{-1} \vspace{-5pt} 
+%\SetEnglishCaption 
+\renewcommand{\figurename}{Fig} 
+\caption{CNN model magnitude prediction effect\\
+(a) Minimum cut-off magnitude is 3 (b) Minimum cut-off magnitude is 4} 
+\renewcommand{\figurename}{图} 
+%英文标题end 
+\label{fig:network-device-influence.png} 
+\end{figure}
+\subsection{机器学习模型处理低信噪比的效果}
+\indent 现实生活中当一次特大地震主震结束后，往往会伴随许多危害巨大的余震序列。虽然这些余震震级相对于主震来说都是较小的，但因建筑物、矿区等各种设施在主震来临时其已经结构遭受一定程度上的破坏，余震的发生往往会进一步破坏本来已经处于危险状况的设施结构，引发进一步的人员伤亡、加剧生产资料损毁，并且有可能引发次生的其他各种灾害。因此，余震震级的紧急预估具有十分重要的研究意义。\\
+\indent 但令人遗憾的是传统震级预估方法在面对余震记录时并不能够准备的给出震级预估，低信噪比数据使传统方法在一定程度上趋于无效。而本文中所涉及的两类机器学习类震级预估方法，在处理低信噪比数据是都有着优秀的表现。在初步的研究中我们先采用向真实台站数据添加不同幅值的高斯白噪声以模拟大地震后分布在尾波中的余震。同时参考john（2018）对于地震记录的信噪比设定，（4.1）（4.2）式中$A_{s}$和$A_{n}$分别是对信号和噪音强度的表示。
+\begin{equation}
+\mathrm{SNR}=10 \log _{10}\left[\left(\frac{A_{\text {s}}}{A_{\text {n}}}\right)^{2}\right]
+\end{equation}
+\begin{equation}
+A_{\text { s }}=\left(\sum_{c=1}^{3} \sum_{t=1}^{300} d_{c, t}^{2}\right)^{1 / 2}
+\end{equation}

@@ -13,7 +13,7 @@
 式中，$\mathrm{X}_{\mathrm{i}}=\alpha \mathrm{X}_{\mathrm{i}-1}+\mathrm{x}_{\mathrm{i}}^{2}, \mathrm{D}_{\mathrm{i}}=\alpha \mathrm{D}_{\mathrm{i}-1}+\left(\frac{\mathrm{dx}}{\mathrm{dt}}\right)_{\mathrm{i}}^{2}, \tau_{i}^{p}$是i秒时测定的特征周期，$\mathrm{X}_{\mathrm{i}}$是记录的地面运动速度值，$\mathrm{X}_{\mathrm{i}}$是平滑后地面运动速度的平方值，$\alpha$为接近的1的平滑系数 (取值多为0.999)。$\tau_{p}^{\max}$台站P波触发后的若干秒后，该迭代序列中的最大值。美国著名的ElamrS系统就采取$\tau_{p}^{\max }$法进行的震级预估 (Allen et al, 1996)。ElamrS系统实践表明，$\tau_{p}^{\max}$台站数量要求较高，多台站联合预估结果的误差在台站数量较少的情况下与其数量近似呈现线性关系，5个台站平均误差约为±0.70，10个台站误差下降至±0.35 (Kanamori et al., 2005）。$\tau_{p}^{\max}$法的准确和稳定性同时还受台站记录的采样率影响，与数据预处理方式密切相关，选用不同滤波器或滤波时窗都会对特征周期的计算结果产生较大影响。例如当选用较大的高频截止频率对记录低通滤波处理后，特征周期计算结果会明显偏小。Allen (2003, 2007)在后续的一系列的工作中对$\tau_{p}^{\max}$法进行可改进，在预估震级前给出预分类假设。在不同的预分类情况下使用不同的滤波方式，以得到该情形相应的震级并基于多种情景假设共同预估出震级。\\
 \indent Kanamori(2005)随后提出了一种对$\tau_{p}^{\max}$改进的捕捉特征周期计算方法，称为$\tau_{\mathrm{c}}$方法，计算方法如下：\\
 \begin{equation}
-\mathrm{r}=\frac{\int_{0}^{\tau_{0}} \dot{\mathrm{u}}^{2}(\mathrm{t}) \mathrm{dt}}{\int_{0}^{\tau_{0}} \mathrm{u}^{2}(\mathrm{t}) \mathrm{dt}}
+\mathrm{r}=\frac{\mathlarger{\int}_{0}^{\tau_{0}} \dot{\mathrm{u}}^{2}(\mathrm{t}) \mathrm{dt}}{\mathlarger{\int}_{0}^{\tau_{0}} \mathrm{u}^{2}(\mathrm{t}) \mathrm{dt}}
 \end{equation}
 \begin{equation}
 \tau_{\mathrm{c}}=\frac{2 \pi}{\sqrt{\mathrm{r}}}
