@@ -226,11 +226,11 @@
 \newenvironment{cabstract}{
 	\def\tmp@abstlabel{cabstract}
 	\let\tmp@title\@ctitle
- 	\let\tmp@author\@cauthor
-	\let\tmp@major\@cmajor
- 	\let\tmp@mentor\@cmentor
+%  	\let\tmp@author\@cauthor
+% 	\let\tmp@major\@cmajor
+%  	\let\tmp@mentor\@cmentor
  	\let\tmp@keywords\@ckeywords
- 	\let\tmp@label@mentor\label@cmentor
+%  	\let\tmp@label@mentor\label@cmentor
  	\let\tmp@label@keywords\label@ckeywords
 	\let\tmp@abstractname\cabstractname
 	\begin{pkuthss@int@abstract}
@@ -240,11 +240,11 @@
 \newenvironment{eabstract}{
 	\def\tmp@abstlabel{eabstract}
 	\let\tmp@title\@etitle
- 	\let\tmp@author\@eauthor
-	\let\tmp@major\@emajor
- 	\let\tmp@mentor\@ementor
+%  	\let\tmp@author\@eauthor
+% 	\let\tmp@major\@emajor
+%  	\let\tmp@mentor\@ementor
  	\let\tmp@keywords\@ekeywords
- 	\let\tmp@label@mentor\label@ementor
+%  	\let\tmp@label@mentor\label@ementor
  	\let\tmp@label@keywords\label@ekeywords
 	\let\tmp@abstractname\eabstractname
 	\begin{pkuthss@int@abstract}

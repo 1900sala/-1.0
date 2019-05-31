@@ -6,6 +6,7 @@
 
 \documentclass[UTF8]{pkuthss}
 % 使得打字机粗体可以被使用。
+\usepackage{diagbox} % 加载宏包
 \usepackage{exscale}
 \usepackage{relsize}
 \usepackage[justification=centering]{caption}
@@ -40,11 +41,11 @@
 %
 \usepackage{appendix}
 % 参考文献格式。
-\bibliographystyle{ref/chinesebst-mod}
+\bibliographystyle{elsarticle-harv}
 % 设定文档的基本信息。
 \pkuthssinfo{
-	cthesisname={研究生毕业论文},ethesisname={Undergraduate Thesis},
-	ctitle={机器学习在地震紧急预警系统震级预估中的应用},
+	cthesisname={硕士研究生学位论文},ethesisname={Undergraduate Thesis},
+	ctitle={~机器学习在地震紧急预警系统震级预估中的应用},
 	etitle={Application of Machine Learning to Magnitude Estimation in Earthquake Emergency Prediction System},
 	cauthor={胡安冬},
 	eauthor={Andong Hu},
@@ -107,7 +108,6 @@
 		% 参考文献。
 		\nocite{*}
 		\bibliography{ref/pkuthss.bib}
-		
 	\end{appendix}
 
 	% 以下为正文之后的部分。
